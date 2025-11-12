@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 1000);
     
-    // ========== AUTHOR IMAGE SLIDER ==========
+   // ========== AUTHOR IMAGE SLIDER ==========
     const authorSlides = document.querySelectorAll('.author-slide');
     const authorDots = document.querySelectorAll('.author-slider-dots .dot');
     let currentAuthorSlide = 0;
@@ -644,6 +644,50 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(authorSliderInterval);
                 authorSliderInterval = setInterval(nextAuthorSlide, 4000);
             });
+        });
+    }
+    
+    // ========== TESTIMONIALS INFINITE SCROLL ==========
+    const testimonialsContainer = document.querySelector('.testimonials-scroll-container');
+    
+    if (testimonialsContainer) {
+        // Clone all testimonial cards and append them for seamless loop
+        const testimonialCards = Array.from(testimonialsContainer.children);
+        testimonialCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            testimonialsContainer.appendChild(clone);
+        });
+        
+        let scrollPosition = 0;
+        const scrollSpeed = 0.5; // pixels per frame
+        
+        function scrollTestimonials() {
+            scrollPosition += scrollSpeed;
+            
+            // Get the width of one complete set of cards
+            const cardWidth = testimonialCards[0].offsetWidth + 25; // card width + gap
+            const totalWidth = cardWidth * testimonialCards.length;
+            
+            // Reset position when first set has scrolled completely
+            if (scrollPosition >= totalWidth) {
+                scrollPosition = 0;
+            }
+            
+            testimonialsContainer.style.transform = `translateX(-${scrollPosition}px)`;
+            
+            requestAnimationFrame(scrollTestimonials);
+        }
+        
+        // Start the animation
+        scrollTestimonials();
+        
+        // Pause on hover
+        testimonialsContainer.addEventListener('mouseenter', () => {
+            scrollSpeed = 0;
+        });
+        
+        testimonialsContainer.addEventListener('mouseleave', () => {
+            scrollSpeed = 0.5;
         });
     }
     

@@ -855,10 +855,10 @@ nav ul li a i {
     background: linear-gradient(to left, #ffffff, transparent);
 }
 
+
 .testimonials-scroll-container {
     display: flex;
     gap: 25px;
-    animation: scroll-testimonials 40s linear infinite;
     width: fit-content;
 }
 
